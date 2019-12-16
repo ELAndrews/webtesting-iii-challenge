@@ -3,6 +3,7 @@ import React from "react";
 import * as rtl from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Dashboard from "./Dashboard";
+import Display from "../display/Display";
 
 afterEach(rtl.cleanup);
 
@@ -20,38 +21,44 @@ beforeEach(() => {
   wrapper = rtl.render(<Dashboard />);
 });
 
-describe("Dashboard comonent, freshly rendered", () => {
+describe("Dashboard component, freshly rendered", () => {
   it("renders without crashing", () => {
     //   wrapper.debug();
     expect(wrapper.container).toMatchSnapshot();
     // if it fails you can update snapshot by pressing 'u' after the fail. All snapshots are saved into a new automated file
   });
 
-  it('renders an "unlocked" text node', () => {
+  it('renders an "unlocked" text node as default', () => {
     // expect(wrapper.queryByText('Unlocked')).toBeInTheDocument();
     // expect(wrapper.queryByText('Unlocked')).toBeVisbile();
     expect(Unlocked()).toBeInTheDocument();
     expect(Unlocked()).toBeVisible();
   });
 
-  it('renders an "open" text node', () => {
+  it('renders an "open" text node, as default', () => {
     expect(Open()).toBeInTheDocument();
     expect(Open()).toBeVisible();
   });
 
-  it('renders a "lock gate" text node', () => {
+  it('renders a "lock gate" text node, which is part of controls', () => {
     expect(Lock()).toBeInTheDocument();
     expect(Lock()).toBeVisible();
+    expect(Lock()).toBeDisabled();
   });
 
-  it('renders a "Close gate" text node', () => {
+  it('renders a "Close gate" text node, which is part of controls', () => {
     expect(CloseGate()).toBeInTheDocument();
     expect(CloseGate()).toBeVisible();
+  });
+
+  it("renders the correct class names of 'green-led'", () => {
+    expect(wrapper.container.firstChild.firstChild).toHaveClass("green-led");
+    expect(wrapper.container.firstChild.lastChild).toHaveClass("green-led");
   });
 });
 
 describe("Dashboard component, when we CLOSE the gate", () => {
-  it("matches snapshot after closing gate", () => {
+  it("matches snapshot after closing gate, displaying closed", () => {
     rtl.fireEvent.click(CloseGate());
     expect(wrapper.container).toMatchSnapshot();
   });
@@ -61,34 +68,62 @@ describe("Dashboard component, when we CLOSE the gate", () => {
     rtl.fireEvent.click(CloseGate());
     expect(CloseGate()).toBe(null);
   });
+
+  it("clicking close makes open button apppear", () => {
+    rtl.fireEvent.click(CloseGate());
+    expect(OpenGate()).toBeInTheDocument();
+  });
 });
 
-describe("Dashboard component, when we CLOSE and Lock the gate", () => {
+describe("Dashboard component, when we CLOSE and LOCK the gate", () => {
   it("matches snapshot after closing and locking gate", () => {
     rtl.fireEvent.click(CloseGate());
     rtl.fireEvent.click(Lock());
     expect(wrapper.container).toMatchSnapshot();
   });
+
+  it("disabled the open/close button when the gate is locked", () => {
+    rtl.fireEvent.click(CloseGate());
+    rtl.fireEvent.click(Lock());
+    expect(OpenGate()).toBeDisabled();
+  });
+
+  it("displays Locked and Closed in the display component", () => {
+    rtl.fireEvent.click(CloseGate());
+    rtl.fireEvent.click(Lock());
+    expect(Locked()).toBeInTheDocument();
+    expect(Closed()).toBeInTheDocument();
+  });
+
+  it("render the Unlock Gate button", () => {
+    rtl.fireEvent.click(CloseGate());
+    rtl.fireEvent.click(Lock());
+    expect(UnlockGate()).toBeInTheDocument();
+  });
+
+  it("renders the correct class names of 'red-led'", () => {
+    rtl.fireEvent.click(CloseGate());
+    rtl.fireEvent.click(Lock());
+    expect(wrapper.container.firstChild.firstChild).toHaveClass("red-led");
+    expect(wrapper.container.firstChild.lastChild).toHaveClass("red-led");
+  });
 });
 
-// it('renders a "Closed" text node', () => {
-//     expect(Closed()).toBeInTheDocument();
-//     expect(Closed()).toBeVisible();
-//     expect(Closed()).toBeDisabled();
-//   });
+describe("Controls Component", () => {
+  it("provide buttons to toggle the `closed` and `locked` states, which reflects the state of the door", () => {
+    expect(Open()).toBeVisible();
+    wrapper = rtl.render(<Display closed={true} />);
+    expect(Closed()).toBeVisible();
+  });
 
-//   it('renders a "Locked" text node', () => {
-//     expect(Locked()).toBeInTheDocument();
-//     expect(Locked()).toBeVisible();
-//     expect(Closed()).toBeDisabled();
-//   });
+  it("the closed toggle button is disabled if the gate is locked", () => {
+    wrapper = rtl.render(<Display closed={true} />);
+    expect(Closed()).toBeVisible();
+    expect(Lock()).toBeDisabled();
+  });
 
-//   it('renders an "Close gate" text node', () => {
-//     expect(OpenGate()).toBeInTheDocument();
-//     expect(OpenGate()).toBeVisible();
-//   });
-
-//   it('renders an "Unlock gate" text node', () => {
-//     expect(UnlockGate()).toBeInTheDocument();
-//     expect(UnlockGate()).toBeVisible();
-//   });
+  it("the locked toggle button is disabled if the gate is open", () => {
+    expect(Open()).toBeVisible();
+    expect(Lock()).toBeInTheDocument();
+  });
+});

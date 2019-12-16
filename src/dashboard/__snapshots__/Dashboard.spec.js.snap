@@ -16,9 +16,6 @@ exports[`Dashboard comonent, freshly rendered renders without crashing 1`] = `
       Open
     </div>
   </div>
-  <p>
-    lady gaga
-  </p>
   <div
     class="controls panel"
   >
@@ -32,6 +29,74 @@ exports[`Dashboard comonent, freshly rendered renders without crashing 1`] = `
       class="toggle-btn"
     >
       Close Gate
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Dashboard component, freshly rendered renders without crashing 1`] = `
+<div>
+  <div
+    class="display panel"
+  >
+    <div
+      class="led green-led"
+    >
+      Unlocked
+    </div>
+    <div
+      class="led green-led"
+    >
+      Open
+    </div>
+  </div>
+  <div
+    class="controls panel"
+  >
+    <button
+      class="toggle-btn"
+      disabled=""
+    >
+      Lock Gate
+    </button>
+    <button
+      class="toggle-btn"
+    >
+      Close Gate
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Dashboard component, when we CLOSE and LOCK the gate matches snapshot after closing and locking gate 1`] = `
+<div>
+  <div
+    class="display panel"
+  >
+    <div
+      class="led red-led"
+    >
+      Locked
+    </div>
+    <div
+      class="led red-led"
+    >
+      Closed
+    </div>
+  </div>
+  <div
+    class="controls panel"
+  >
+    <button
+      class="toggle-btn"
+    >
+      Unlock Gate
+    </button>
+    <button
+      class="toggle-btn"
+      disabled=""
+    >
+      Open Gate
     </button>
   </div>
 </div>
@@ -53,46 +118,6 @@ exports[`Dashboard component, when we CLOSE and Lock the gate matches snapshot a
       Closed
     </div>
   </div>
-  <p>
-    lady gaga
-  </p>
-  <div
-    class="controls panel"
-  >
-    <button
-      class="toggle-btn"
-    >
-      Unlock Gate
-    </button>
-    <button
-      class="toggle-btn"
-      disabled=""
-    >
-      Open Gate
-    </button>
-  </div>
-</div>
-`;
-
-exports[`Dashboard component, when we CLOSE and Lock the gate matches snapshot after closing gate 1`] = `
-<div>
-  <div
-    class="display panel"
-  >
-    <div
-      class="led red-led"
-    >
-      Locked
-    </div>
-    <div
-      class="led red-led"
-    >
-      Closed
-    </div>
-  </div>
-  <p>
-    lady gaga
-  </p>
   <div
     class="controls panel"
   >
@@ -127,9 +152,6 @@ exports[`Dashboard component, when we CLOSE the gate matches snapshot after clos
       Closed
     </div>
   </div>
-  <p>
-    lady gaga
-  </p>
   <div
     class="controls panel"
   >
@@ -147,7 +169,7 @@ exports[`Dashboard component, when we CLOSE the gate matches snapshot after clos
 </div>
 `;
 
-exports[`renders without crashing 1`] = `
+exports[`Dashboard component, when we CLOSE the gate matches snapshot after closing gate, displaying closed 1`] = `
 <div>
   <div
     class="display panel"
@@ -158,27 +180,23 @@ exports[`renders without crashing 1`] = `
       Unlocked
     </div>
     <div
-      class="led green-led"
+      class="led red-led"
     >
-      Open
+      Closed
     </div>
   </div>
-  <p>
-    lady gaga
-  </p>
   <div
     class="controls panel"
   >
     <button
       class="toggle-btn"
-      disabled=""
     >
       Lock Gate
     </button>
     <button
       class="toggle-btn"
     >
-      Close Gate
+      Open Gate
     </button>
   </div>
 </div>
