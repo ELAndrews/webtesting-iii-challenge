@@ -1,9 +1,10 @@
 // Test away
-import React from "react";
+import React, { Component } from "react";
 import * as rtl from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Dashboard from "./Dashboard";
 import Display from "../display/Display";
+import Controls from "../controls/Controls";
 
 afterEach(rtl.cleanup);
 
@@ -104,21 +105,20 @@ describe("Dashboard component, when we CLOSE and LOCK the gate", () => {
   it("renders the correct class names of 'red-led'", () => {
     rtl.fireEvent.click(CloseGate());
     rtl.fireEvent.click(Lock());
-    expect(wrapper.container.firstChild.firstChild).toHaveClass("red-led");
+    expect(wrapper.container.firstChild.firstChild).toHaveClass("red-led"); // Could have used the variables above i.e. Open()
     expect(wrapper.container.firstChild.lastChild).toHaveClass("red-led");
   });
 });
 
 describe("Controls Component", () => {
   it("provide buttons to toggle the `closed` and `locked` states, which reflects the state of the door", () => {
-    expect(Open()).toBeVisible();
-    wrapper = rtl.render(<Display closed={true} />);
-    expect(Closed()).toBeVisible();
+    expect(CloseGate()).toBeVisible();
+    rtl.fireEvent.click(CloseGate());
+    expect(OpenGate()).toBeVisible();
   });
 
   it("the closed toggle button is disabled if the gate is locked", () => {
-    wrapper = rtl.render(<Display closed={true} />);
-    expect(Closed()).toBeVisible();
+    expect(CloseGate()).toBeVisible();
     expect(Lock()).toBeDisabled();
   });
 
